@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DailyFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_daily); //the first fragment to appear when the app opens
         }
-
-
     }
 
     @Override
