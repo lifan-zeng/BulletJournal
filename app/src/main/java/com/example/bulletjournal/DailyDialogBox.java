@@ -19,7 +19,7 @@ public class DailyDialogBox extends DialogFragment {
     }
     public OnInputSelected onInputSelected;
 
-    private EditText input;
+    private EditText inputTitle;
     private TextView actButtonOk;
     private TextView actButtonCancel;
 
@@ -30,7 +30,7 @@ public class DailyDialogBox extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_daily, container, false);
         actButtonOk = view.findViewById(R.id.action_ok);
         actButtonCancel = view.findViewById(R.id.action_cancel);
-        input = view.findViewById(R.id.editTitle);
+        inputTitle = view.findViewById(R.id.editTitle);
 
 
         actButtonCancel.setOnClickListener(new OnClickListener(){
@@ -43,11 +43,10 @@ public class DailyDialogBox extends DialogFragment {
         actButtonOk.setOnClickListener(new OnClickListener(){
             @Override
             public void onClick(View v) {
-                String textInput = input.getText().toString();
+                String textInput = inputTitle.getText().toString();
                 if (!textInput.equals("")){
                     onInputSelected.sendInput(textInput);
-//                    DailyFragment fragment = (DailyFragment) getActivity().getFragmentManager().findFragmentByTag("DailyDialog");
-//                    fragment.inputDisplay.setText(textInput);
+
                 }
                 getDialog().dismiss();
             }

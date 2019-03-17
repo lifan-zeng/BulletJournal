@@ -15,7 +15,7 @@ public class DailyFragment extends Fragment implements DailyDialogBox.OnInputSel
     public TextView inputDisplay;
 
     @Nullable
-    //@Override
+    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_daily, container, false);
         openDialog = rootView.findViewById(R.id.add_task);

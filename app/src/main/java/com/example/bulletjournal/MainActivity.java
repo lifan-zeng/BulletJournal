@@ -12,11 +12,13 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
+    public DatabaseHelper myDbase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        myDbase = new DatabaseHelper(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -42,11 +44,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_daily:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DailyFragment()).commit();
                 break;
+            case R.id.nav_weekly:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new WeeklyFragment()).commit();
+                break;
             case R.id.nav_monthly:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MonthlyFragment()).commit();
-                break;
-            case R.id.nav_table_of_contents:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TableOfContentsFragment()).commit();
                 break;
             case R.id.nav_bookmarks:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new BookmarksFragment()).commit();
