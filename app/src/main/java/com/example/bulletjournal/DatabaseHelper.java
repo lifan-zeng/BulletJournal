@@ -22,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME + " (NUM INTEGER PRIMARY KEY AUTOINCREMENT,TASK TEXT,DATE TEXT,BOOKMARK BIT)");
+        db.execSQL("create table " + TABLE_NAME + " (NUM INTEGER PRIMARY KEY AUTOINCREMENT,TASK TEXT,DATE TEXT,BOOKMARK TEXT)");
     }
 
     @Override
@@ -38,11 +38,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_3, date);
         values.put(COL_4, bookmark);
         long answer = db.insert(TABLE_NAME, null, values);
-        if (answer == -1) {
-            return false;
-        } else {
-            return true;
-        }
-
+//        if (answer == -1) {
+//            return false;
+//        } else {
+//            return true;
+//        }
+        return true;
     }
 }

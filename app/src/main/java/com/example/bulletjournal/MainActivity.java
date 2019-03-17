@@ -12,7 +12,7 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
-    public DatabaseHelper myDbase;
+    DatabaseHelper myDbase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
