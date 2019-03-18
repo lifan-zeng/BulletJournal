@@ -2,8 +2,11 @@ package com.example.bulletjournal;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -14,6 +17,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_3 = "DATE";
     public static final String COL_4 = "BOOKMARK";
 
+    public static final int TRUE = 1;
+    public static final int FALSE = 0;
+
 
     public DatabaseHelper(@androidx.annotation.Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -22,7 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME + " (NUM INTEGER PRIMARY KEY AUTOINCREMENT,TASK TEXT,DATE TEXT,BOOKMARK TEXT)");
+        db.execSQL("create table " + TABLE_NAME + " (NUM INTEGER PRIMARY KEY AUTOINCREMENT,TASK TEXT,DATE TEXT,BOOKMARK BIT)");
     }
 
     @Override
@@ -38,11 +44,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_3, date);
         values.put(COL_4, bookmark);
         long answer = db.insert(TABLE_NAME, null, values);
-//        if (answer == -1) {
-//            return false;
-//        } else {
-//            return true;
-//        }
+        if (answer == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    public Cursor getData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + TABLE_NAME, null);
+        return cursor;
+    }
+
+    public ArrayList<TaskData> getDataArray() {
+        ArrayList<TaskData> arrayList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + TABLE_NAME, null);
+
+        while (cursor.moveToNext()) {
+            int num = cursor.getInt(0);
+            String task = cursor.getString(1);
+            String date= cursor.getString(2);
+            String bookmark = cursor.getString(3);
+            TaskData newTask = new TaskData(num, task, date, bookmark);
+            arrayList.add(newTask);
+        }
+        return arrayList;
+    }
+
+    public boolean updateData(String num, String task, String date, String bookmark) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+//        values.put(COL_1, num);
+        values.put(COL_2, task);
+        values.put(COL_3, date);
+        values.put(COL_4, bookmark);
+
+        db.update(TABLE_NAME, values, "NUM = ?", new String[]{num});
         return true;
     }
+
 }

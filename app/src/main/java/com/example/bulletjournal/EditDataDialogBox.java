@@ -24,7 +24,7 @@ import androidx.fragment.app.DialogFragment;
 import static android.widget.Toast.LENGTH_SHORT;
 
 
-public class DailyDialogBox extends DialogFragment {
+public class EditDataDialogBox extends DialogFragment {
 
     public interface OnInputSelected{
         void sendInput(String input);
@@ -60,8 +60,7 @@ public class DailyDialogBox extends DialogFragment {
             String setDate = args.getString("date");
         }
 
-//        editData();
-        insertData();
+        editData();
 
         final Calendar myCalendar = Calendar.getInstance();
         final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/YYYY");
@@ -105,27 +104,6 @@ public class DailyDialogBox extends DialogFragment {
     }
 
 
-    public void insertData() {
-        actButtonOk.setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Context context = getActivity();
-                boolean isAdded;
-                if (inputTitle.getText().toString().equals("") || inputDate.getText().toString().equals("") || switchBookmark.getText().toString().equals("")) {
-                    Toast.makeText(context, "Failed to Add Task: Empty Textbox", LENGTH_SHORT).show();
-                } else {
-                    isAdded = myDbase.addData(inputTitle.getText().toString(), inputDate.getText().toString(), switchBookmark.getText().toString() );
-                    if (isAdded = true) {
-                        Toast.makeText(context, "Added Task", LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "Failed to Add Task", LENGTH_SHORT).show();
-                    }
-                    getDialog().dismiss();
-                }
-            }
-        });
-    }
-
     public void editData() {
         actButtonOk.setOnClickListener(new OnClickListener() {
             @Override
@@ -146,7 +124,6 @@ public class DailyDialogBox extends DialogFragment {
             }
         });
     }
-
 
     @Override
     public void onAttach(Context context) {
