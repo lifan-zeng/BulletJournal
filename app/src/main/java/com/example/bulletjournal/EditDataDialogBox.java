@@ -1,5 +1,6 @@
 package com.example.bulletjournal;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -39,6 +40,13 @@ public class EditDataDialogBox extends DialogFragment {
     private Switch switchBookmark;
     private String setNum;
 
+    private DailyFragment frag;
+
+    @SuppressLint("ValidFragment")
+    public EditDataDialogBox(DailyFragment frag) {
+        super();
+        this.frag = frag;
+    }
     DatabaseHelper myDbase;
 
     @Nullable
@@ -61,6 +69,9 @@ public class EditDataDialogBox extends DialogFragment {
         }
 
         editData();
+        deleteTask();
+
+
 
         final Calendar myCalendar = Calendar.getInstance();
         final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/YYYY");
@@ -100,6 +111,7 @@ public class EditDataDialogBox extends DialogFragment {
             }
         });
 
+
         return view;
     }
 
@@ -114,6 +126,7 @@ public class EditDataDialogBox extends DialogFragment {
                     Toast.makeText(context, "Failed to Edit Task: Empty Textbox", LENGTH_SHORT).show();
                 } else {
                     isUpdated = myDbase.updateData(setNum, inputTitle.getText().toString(), inputDate.getText().toString(), switchBookmark.getText().toString());
+                    frag.loadDataListView();
                     if (isUpdated = true) {
                         Toast.makeText(context, "Edited Task", LENGTH_SHORT).show();
                     } else {
@@ -133,6 +146,21 @@ public class EditDataDialogBox extends DialogFragment {
         } catch (ClassCastException e) {
 
         }
+    }
+    public void deleteTask() {
+        actButtonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Integer deletedRow = myDbase.deleteData(setNum);
+                frag.loadDataListView();
+                if (deletedRow > 0) {
+                    Toast.makeText(getActivity(), "Deleted Task", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Failed to Delete Task", Toast.LENGTH_SHORT).show();
+                }
+                getDialog().dismiss();
+            }
+        });
     }
 
 }

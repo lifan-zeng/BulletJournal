@@ -1,5 +1,6 @@
 package com.example.bulletjournal;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -38,6 +39,14 @@ public class DailyDialogBox extends DialogFragment {
 
     DatabaseHelper myDbase;
 
+    private DailyFragment frag;
+
+    @SuppressLint("ValidFragment")
+    public DailyDialogBox(DailyFragment frag) {
+        super();
+        this.frag = frag;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -48,6 +57,8 @@ public class DailyDialogBox extends DialogFragment {
         inputDate = view.findViewById(R.id.editDate);
         switchBookmark = view.findViewById(R.id.switch_bookmark);
         myDbase = new DatabaseHelper(getContext());
+
+
 
         insertData();
 
@@ -103,6 +114,7 @@ public class DailyDialogBox extends DialogFragment {
                     Toast.makeText(context, "Failed to Add Task: Empty Textbox", LENGTH_SHORT).show();
                 } else {
                     isAdded = myDbase.addData(inputTitle.getText().toString(), inputDate.getText().toString(), switchBookmark.getText().toString() );
+                    frag.loadDataListView();
                     if (isAdded = true) {
                         Toast.makeText(context, "Added Task", LENGTH_SHORT).show();
                     } else {
@@ -111,6 +123,7 @@ public class DailyDialogBox extends DialogFragment {
                     getDialog().dismiss();
                 }
             }
+
         });
     }
 

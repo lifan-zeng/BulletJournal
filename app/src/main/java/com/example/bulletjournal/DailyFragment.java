@@ -25,6 +25,8 @@ public class DailyFragment extends Fragment implements DailyDialogBox.OnInputSel
     private DatabaseHelper myDbase;
     private ArrayList<TaskData> arrayList;
     private Adapter myAdapter;
+    final DailyFragment thisThing = this;
+
 
     @Nullable
     @Override
@@ -36,9 +38,7 @@ public class DailyFragment extends Fragment implements DailyDialogBox.OnInputSel
         myDbase = new DatabaseHelper(getContext());
         arrayList = new ArrayList<>();
 
-
 //        viewAll();
-        loadDataListView();
 
         //update data
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -57,32 +57,35 @@ public class DailyFragment extends Fragment implements DailyDialogBox.OnInputSel
                 System.out.println("lifan");
                 System.out.println(taskData.getNum());
 
-                EditDataDialogBox dialog = new EditDataDialogBox();
+                EditDataDialogBox dialog = new EditDataDialogBox(thisThing);
                 dialog.setArguments(args);
                 dialog.setTargetFragment(DailyFragment.this, 1);
                 dialog.show(getFragmentManager(), "DailyDialog");
 //                dialog.editData();
+                loadDataListView();
                 return false;
             }
         });
 
+
         openDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v) {
-                DailyDialogBox dialog = new DailyDialogBox();
+                DailyDialogBox dialog = new DailyDialogBox(thisThing);
                 dialog.setTargetFragment(DailyFragment.this, 1);
                 dialog.show(getFragmentManager(), "DailyDialog");
+                loadDataListView();
             }
         });
+        loadDataListView();
+
         return rootView;
     }
 
 
 
-    private void loadDataListView() {
+    public void loadDataListView() {
         arrayList = myDbase.getDataArray();
-
-        System.out.println(arrayList.toString());
 
         myAdapter = new MyAdapter(getActivity(), arrayList);
         listView.setAdapter((BaseAdapter)myAdapter);
