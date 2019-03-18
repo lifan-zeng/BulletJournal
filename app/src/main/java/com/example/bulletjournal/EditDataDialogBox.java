@@ -37,14 +37,14 @@ public class EditDataDialogBox extends DialogFragment {
     private TextView actButtonCancel;
     private Button actButtonDelete;
     private Switch switchBookmark;
-    String setNum;
+    private String setNum;
 
     DatabaseHelper myDbase;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_daily, container, false);
+        View view = inflater.inflate(R.layout.edit_dialog_daily, container, false);
         actButtonOk = view.findViewById(R.id.action_ok);
         actButtonCancel = view.findViewById(R.id.action_cancel);
         inputTitle = view.findViewById(R.id.editTitle);
@@ -111,13 +111,13 @@ public class EditDataDialogBox extends DialogFragment {
                 Context context = getActivity();
                 boolean isUpdated;
                 if (inputTitle.getText().toString().equals("") || inputDate.getText().toString().equals("") || switchBookmark.getText().toString().equals("")) {
-                    Toast.makeText(context, "Failed to Add Task: Empty Textbox", LENGTH_SHORT).show();
+                    Toast.makeText(context, "Failed to Edit Task: Empty Textbox", LENGTH_SHORT).show();
                 } else {
                     isUpdated = myDbase.updateData(setNum, inputTitle.getText().toString(), inputDate.getText().toString(), switchBookmark.getText().toString());
                     if (isUpdated = true) {
-                        Toast.makeText(context, "Added Task", LENGTH_SHORT).show();
+                        Toast.makeText(context, "Edited Task", LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(context, "Failed to Add Task", LENGTH_SHORT).show();
+                        Toast.makeText(context, "Failed to Edit Task", LENGTH_SHORT).show();
                     }
                     getDialog().dismiss();
                 }

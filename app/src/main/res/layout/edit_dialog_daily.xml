@@ -15,10 +15,16 @@
             android:id="@+id/heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Daily Task"
+            android:text="Edit Daily Task"
             android:layout_marginStart="8dp"
             android:textColor="#000"
             android:textSize="18sp" />
+        <Button
+            android:id="@+id/deleteTask"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/ic_delete"/>
 
         <EditText
             android:id="@+id/editTitle"

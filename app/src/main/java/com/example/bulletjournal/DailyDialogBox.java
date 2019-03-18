@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -35,9 +34,7 @@ public class DailyDialogBox extends DialogFragment {
     private EditText inputDate;
     private TextView actButtonOk;
     private TextView actButtonCancel;
-    private Button actButtonDelete;
     private Switch switchBookmark;
-    String setNum;
 
     DatabaseHelper myDbase;
 
@@ -51,16 +48,7 @@ public class DailyDialogBox extends DialogFragment {
         inputDate = view.findViewById(R.id.editDate);
         switchBookmark = view.findViewById(R.id.switch_bookmark);
         myDbase = new DatabaseHelper(getContext());
-        actButtonDelete = view.findViewById(R.id.deleteTask);
 
-        Bundle args = getArguments();
-        if (args != null) {
-            setNum = args.getString("num");
-            String setName = args.getString("task");
-            String setDate = args.getString("date");
-        }
-
-//        editData();
         insertData();
 
         final Calendar myCalendar = Calendar.getInstance();
@@ -125,28 +113,6 @@ public class DailyDialogBox extends DialogFragment {
             }
         });
     }
-
-    public void editData() {
-        actButtonOk.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick (View v){
-                Context context = getActivity();
-                boolean isUpdated;
-                if (inputTitle.getText().toString().equals("") || inputDate.getText().toString().equals("") || switchBookmark.getText().toString().equals("")) {
-                    Toast.makeText(context, "Failed to Add Task: Empty Textbox", LENGTH_SHORT).show();
-                } else {
-                    isUpdated = myDbase.updateData(setNum, inputTitle.getText().toString(), inputDate.getText().toString(), switchBookmark.getText().toString());
-                    if (isUpdated = true) {
-                        Toast.makeText(context, "Added Task", LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "Failed to Add Task", LENGTH_SHORT).show();
-                    }
-                    getDialog().dismiss();
-                }
-            }
-        });
-    }
-
 
     @Override
     public void onAttach(Context context) {
