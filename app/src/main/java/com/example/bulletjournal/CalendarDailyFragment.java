@@ -27,20 +27,22 @@ public class CalendarDailyFragment extends Fragment implements DailyDialogBox.On
     private Button openDialog;
     public TextView inputDisplay;
     private ListView listView;
+    private TextView headingDate;
     private DatabaseHelper myDbase;
     private ArrayList<TaskData> arrayList;
     private Adapter myAdapter;
-    final CalendarDailyFragment thisThing = this;
+    private CalendarDailyFragment thisThing = this;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_daily, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_daily_calendar, container, false);
         openDialog = rootView.findViewById(R.id.add_task);
         inputDisplay = rootView.findViewById(R.id.display_tasks);
         listView = rootView.findViewById(R.id.list_tasks);
         myDbase = new DatabaseHelper(getContext());
+        headingDate = rootView.findViewById(R.id.heading_date);
         arrayList = new ArrayList<>();
 
 
@@ -89,10 +91,10 @@ public class CalendarDailyFragment extends Fragment implements DailyDialogBox.On
         String currentDate = sdf.format(new Date());
 
 
-
         Bundle dateBundle = getArguments();
         String calendarDate = dateBundle.getString("date");
 
+        headingDate.setText(calendarDate);
 
         Log.d(TAG, "loadDataListView: " + calendarDate);
         Log.d(TAG, "loadDataListView: " + currentDate);

@@ -47,6 +47,8 @@ public class EditDataDialogBox extends DialogFragment {
 
     private DailyFragment frag;
     private CalendarDailyFragment fragCalendar;
+    private BookmarksFragment fragBm;
+
 
     @SuppressLint("ValidFragment")
     public EditDataDialogBox(DailyFragment frag) {
@@ -57,6 +59,12 @@ public class EditDataDialogBox extends DialogFragment {
     public EditDataDialogBox(CalendarDailyFragment fragCalendar) {
         super();
         this.fragCalendar = fragCalendar;
+    }
+
+    @SuppressLint("ValidFragment")
+    public EditDataDialogBox(BookmarksFragment fragBm) {
+        super();
+        this.fragBm = fragBm;
     }
 
     @Nullable
@@ -142,7 +150,11 @@ public class EditDataDialogBox extends DialogFragment {
                     try {
                         frag.loadDataListView();
                     } catch (NullPointerException e) {
-                        fragCalendar.loadDataListView();
+                        try {
+                            fragCalendar.loadDataListView();
+                        } catch (NullPointerException f) {
+                            fragBm.loadDataListView();
+                        }
                     }
 
                     if (isUpdated = true) {

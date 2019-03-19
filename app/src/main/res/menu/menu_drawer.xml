@@ -9,10 +9,6 @@
             android:icon="@drawable/ic_daily"
             android:title="Daily" />
         <item
-            android:id="@+id/nav_weekly"
-            android:icon="@drawable/ic_weekly"
-            android:title="Weekly" />
-        <item
             android:id="@+id/nav_monthly"
             android:icon="@drawable/ic_monthly"
             android:title="Monthly" />

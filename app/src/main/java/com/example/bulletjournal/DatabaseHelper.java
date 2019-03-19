@@ -117,4 +117,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return dateList;
     }
 
+    public ArrayList<TaskData> getBookmarks() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Log.d(TAG, "getBookmarks: yes");
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE BOOKMARK" + " =  '" + STATE_TRUE + "'" , null);
+        ArrayList<TaskData> bookmarkList = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                int num = cursor.getInt(0);
+
+                Log.d(TAG, "getDatesDataArray: " + num);
+
+                String task = cursor.getString(1);
+                String taskDate= cursor.getString(2);
+                String bookmark = cursor.getString(3);
+                TaskData newTask = new TaskData(num, task, taskDate, bookmark);
+                bookmarkList.add(newTask);
+
+            } while (cursor.moveToNext());
+        }
+        return bookmarkList;
+    }
+
 }

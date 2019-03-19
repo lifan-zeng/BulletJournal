@@ -44,6 +44,10 @@ public class DailyDialogBox extends DialogFragment {
 
     private DailyFragment frag;
     private CalendarDailyFragment fragCalendar;
+    private BookmarksFragment fragBm;
+
+    public DailyDialogBox() {
+    }
 
     @SuppressLint("ValidFragment")
     public DailyDialogBox(DailyFragment frag) {
@@ -55,6 +59,12 @@ public class DailyDialogBox extends DialogFragment {
     public DailyDialogBox(CalendarDailyFragment fragCalendar) {
         super();
         this.fragCalendar = fragCalendar;
+    }
+
+    @SuppressLint("ValidFragment")
+    public DailyDialogBox(BookmarksFragment fragBm) {
+        super();
+        this.fragBm = fragBm;
     }
 
     @Nullable
@@ -128,7 +138,11 @@ public class DailyDialogBox extends DialogFragment {
                     try {
                         frag.loadDataListView();
                     } catch (NullPointerException e) {
-                        fragCalendar.loadDataListView();
+                        try {
+                            fragCalendar.loadDataListView();
+                        } catch (NullPointerException f) {
+                            fragBm.loadDataListView();
+                        }
                     }
 
                     if (isAdded = true) {

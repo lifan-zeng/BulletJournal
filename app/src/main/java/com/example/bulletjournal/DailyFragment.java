@@ -25,6 +25,7 @@ public class DailyFragment extends Fragment implements DailyDialogBox.OnInputSel
     private static final String TAG = "DailyFragment";
     private Button openDialog;
     public TextView inputDisplay;
+    private TextView headingDate;
     private ListView listView;
     private DatabaseHelper myDbase;
     private ArrayList<TaskData> arrayList;
@@ -39,6 +40,7 @@ public class DailyFragment extends Fragment implements DailyDialogBox.OnInputSel
         inputDisplay = rootView.findViewById(R.id.display_tasks);
         listView = rootView.findViewById(R.id.list_tasks);
         myDbase = new DatabaseHelper(getContext());
+        headingDate = rootView.findViewById(R.id.heading_date);
         arrayList = new ArrayList<>();
 
         //update data
@@ -84,14 +86,8 @@ public class DailyFragment extends Fragment implements DailyDialogBox.OnInputSel
 
         Log.d(TAG, "loadDataListView: " + currentDate);
 
-//        Bundle dateBundle = getArguments();
-//        String calendarDate = dateBundle.getString("date");
-
-//        Log.d(TAG, "loadDataListView: " + calendarDate);
-
-//        Cursor cursor = myDbase.getReadableDatabase().rawQuery("SELECT" + COL_3 +  "FROM " + TABLE_NAME + " WHERE " + COL_3 + "=" +  )
-
-        arrayList = myDbase.getDataArray();
+        headingDate.setText(currentDate);
+        arrayList = myDbase.getDatesDataArray(currentDate);
 
         System.out.println(arrayList.toString());
 

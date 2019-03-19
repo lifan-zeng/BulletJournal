@@ -42,8 +42,7 @@ public class MonthlyFragment extends Fragment {
                 calendarDailyFragment.setArguments(dateBundle);
 
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, calendarDailyFragment ); // give your fragment container id in first parameter
-//                transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+                transaction.replace(R.id.fragment_container, calendarDailyFragment );
                 transaction.commit();
 
 

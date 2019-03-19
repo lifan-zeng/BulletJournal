@@ -46,9 +46,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_daily:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DailyFragment()).commit();
                 break;
-            case R.id.nav_weekly:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new WeeklyFragment()).commit();
-                break;
             case R.id.nav_monthly:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MonthlyFragment()).commit();
                 break;
