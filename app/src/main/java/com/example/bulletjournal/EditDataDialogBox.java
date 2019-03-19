@@ -186,7 +186,11 @@ public class EditDataDialogBox extends DialogFragment {
                 try {
                     frag.loadDataListView();
                 } catch (NullPointerException e) {
-                    fragCalendar.loadDataListView();
+                    try {
+                        fragCalendar.loadDataListView();
+                    } catch (NullPointerException f) {
+                        fragBm.loadDataListView();
+                    }
                 }
 
                 if (deletedRow > 0) {
