@@ -5,10 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
+
+    private static final String TAG = "DatabaseHelper";
 
     public static final String DATABASE_NAME = "task.db";
     public static final String TABLE_NAME = "task_table";
@@ -17,8 +20,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_3 = "DATE";
     public static final String COL_4 = "BOOKMARK";
 
-    public static final int TRUE = 1;
-    public static final int FALSE = 0;
+    public static final int STATE_TRUE = 1;
+    public static final int STATE_FALSE = 0;
 
 
     public DatabaseHelper(@androidx.annotation.Nullable Context context) {
@@ -87,6 +90,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Integer deleteData (String num) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE_NAME, "NUM = ?", new String[] {num});
+    }
+
+    public ArrayList<TaskData> getDatesDataArray(String date) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Log.d(TAG, "getDatesDataArray: " + date);
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE DATE" + " =  '" + date + "'" , null);
+        ArrayList<TaskData> dateList = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                int num = cursor.getInt(0);
+
+                Log.d(TAG, "getDatesDataArray: " + num);
+
+                String task = cursor.getString(1);
+                String taskDate= cursor.getString(2);
+                String bookmark = cursor.getString(3);
+                TaskData newTask = new TaskData(num, task, taskDate, bookmark);
+                dateList.add(newTask);
+
+            } while (cursor.moveToNext());
+        }
+        return dateList;
     }
 
 }

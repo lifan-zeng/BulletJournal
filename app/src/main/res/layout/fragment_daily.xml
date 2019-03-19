@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/heading"
         android:layout_width="wrap_content"
-        android:layout_height="47dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="20dp"
@@ -16,6 +16,16 @@
         android:text="Daily Tasks"
         android:textColor="#000"
         android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/heading_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="52dp"
+        android:text="Display Current Date" />
 
     <Button
         android:id="@+id/add_task"
@@ -48,5 +58,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="96dp" />
+
+
 
 </RelativeLayout>

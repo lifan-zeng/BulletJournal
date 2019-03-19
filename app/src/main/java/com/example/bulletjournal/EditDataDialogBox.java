@@ -23,6 +23,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import static android.widget.Toast.LENGTH_SHORT;
+import static com.example.bulletjournal.DatabaseHelper.STATE_FALSE;
+import static com.example.bulletjournal.DatabaseHelper.STATE_TRUE;
 
 
 public class EditDataDialogBox extends DialogFragment {
@@ -39,15 +41,23 @@ public class EditDataDialogBox extends DialogFragment {
     private Button actButtonDelete;
     private Switch switchBookmark;
     private String setNum;
+    private int switchState;
+
+    DatabaseHelper myDbase;
 
     private DailyFragment frag;
+    private CalendarDailyFragment fragCalendar;
 
     @SuppressLint("ValidFragment")
     public EditDataDialogBox(DailyFragment frag) {
         super();
         this.frag = frag;
     }
-    DatabaseHelper myDbase;
+    @SuppressLint("ValidFragment")
+    public EditDataDialogBox(CalendarDailyFragment fragCalendar) {
+        super();
+        this.fragCalendar = fragCalendar;
+    }
 
     @Nullable
     @Override
@@ -98,8 +108,10 @@ public class EditDataDialogBox extends DialogFragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     Toast.makeText(getActivity(), "Bookmarked", LENGTH_SHORT).show();
+                    switchState = STATE_TRUE;
                 } else {
                     Toast.makeText(getActivity(), "Removed Bookmark", LENGTH_SHORT).show();
+                    switchState = STATE_FALSE;
                 }
             }
         });
@@ -122,11 +134,17 @@ public class EditDataDialogBox extends DialogFragment {
             public void onClick (View v){
                 Context context = getActivity();
                 boolean isUpdated;
-                if (inputTitle.getText().toString().equals("") || inputDate.getText().toString().equals("") || switchBookmark.getText().toString().equals("")) {
+                if (inputTitle.getText().toString().equals("") || inputDate.getText().toString().equals("") || String.valueOf(switchState).equals("")) {
                     Toast.makeText(context, "Failed to Edit Task: Empty Textbox", LENGTH_SHORT).show();
                 } else {
-                    isUpdated = myDbase.updateData(setNum, inputTitle.getText().toString(), inputDate.getText().toString(), switchBookmark.getText().toString());
-                    frag.loadDataListView();
+                    isUpdated = myDbase.updateData(setNum, inputTitle.getText().toString(), inputDate.getText().toString(), String.valueOf(switchState));
+
+                    try {
+                        frag.loadDataListView();
+                    } catch (NullPointerException e) {
+                        fragCalendar.loadDataListView();
+                    }
+
                     if (isUpdated = true) {
                         Toast.makeText(context, "Edited Task", LENGTH_SHORT).show();
                     } else {
@@ -152,7 +170,13 @@ public class EditDataDialogBox extends DialogFragment {
             @Override
             public void onClick(View v) {
                 Integer deletedRow = myDbase.deleteData(setNum);
-                frag.loadDataListView();
+
+                try {
+                    frag.loadDataListView();
+                } catch (NullPointerException e) {
+                    fragCalendar.loadDataListView();
+                }
+
                 if (deletedRow > 0) {
                     Toast.makeText(getActivity(), "Deleted Task", Toast.LENGTH_SHORT).show();
                 } else {

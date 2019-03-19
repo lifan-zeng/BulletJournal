@@ -22,6 +22,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import static android.widget.Toast.LENGTH_SHORT;
+import static com.example.bulletjournal.DatabaseHelper.STATE_FALSE;
+import static com.example.bulletjournal.DatabaseHelper.STATE_TRUE;
 
 
 public class DailyDialogBox extends DialogFragment {
@@ -36,15 +38,23 @@ public class DailyDialogBox extends DialogFragment {
     private TextView actButtonOk;
     private TextView actButtonCancel;
     private Switch switchBookmark;
+    private int switchState;
 
     DatabaseHelper myDbase;
 
     private DailyFragment frag;
+    private CalendarDailyFragment fragCalendar;
 
     @SuppressLint("ValidFragment")
     public DailyDialogBox(DailyFragment frag) {
         super();
         this.frag = frag;
+    }
+
+    @SuppressLint("ValidFragment")
+    public DailyDialogBox(CalendarDailyFragment fragCalendar) {
+        super();
+        this.fragCalendar = fragCalendar;
     }
 
     @Nullable
@@ -57,8 +67,6 @@ public class DailyDialogBox extends DialogFragment {
         inputDate = view.findViewById(R.id.editDate);
         switchBookmark = view.findViewById(R.id.switch_bookmark);
         myDbase = new DatabaseHelper(getContext());
-
-
 
         insertData();
 
@@ -87,8 +95,10 @@ public class DailyDialogBox extends DialogFragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     Toast.makeText(getActivity(), "Bookmarked", LENGTH_SHORT).show();
+                    switchState = STATE_TRUE;
                 } else {
                     Toast.makeText(getActivity(), "Removed Bookmark", LENGTH_SHORT).show();
+                    switchState = STATE_FALSE;
                 }
             }
         });
@@ -110,11 +120,17 @@ public class DailyDialogBox extends DialogFragment {
             public void onClick(View v) {
                 Context context = getActivity();
                 boolean isAdded;
-                if (inputTitle.getText().toString().equals("") || inputDate.getText().toString().equals("") || switchBookmark.getText().toString().equals("")) {
+                if (inputTitle.getText().toString().equals("") || inputDate.getText().toString().equals("") || String.valueOf(switchState).equals("")) {
                     Toast.makeText(context, "Failed to Add Task: Empty Textbox", LENGTH_SHORT).show();
                 } else {
-                    isAdded = myDbase.addData(inputTitle.getText().toString(), inputDate.getText().toString(), switchBookmark.getText().toString() );
-                    frag.loadDataListView();
+                    isAdded = myDbase.addData(inputTitle.getText().toString(), inputDate.getText().toString(), String.valueOf(switchState) );
+
+                    try {
+                        frag.loadDataListView();
+                    } catch (NullPointerException e) {
+                        fragCalendar.loadDataListView();
+                    }
+
                     if (isAdded = true) {
                         Toast.makeText(context, "Added Task", LENGTH_SHORT).show();
                     } else {
@@ -132,9 +148,6 @@ public class DailyDialogBox extends DialogFragment {
         super.onAttach(context);
         try {
             onInputSelected = (OnInputSelected) getTargetFragment();
-        } catch (ClassCastException e) {
-
-        }
+        } catch (ClassCastException e) { }
     }
-
 }

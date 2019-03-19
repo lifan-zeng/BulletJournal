@@ -20,16 +20,18 @@ import java.util.Date;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class DailyFragment extends Fragment implements DailyDialogBox.OnInputSelected {
+public class CalendarDailyFragment extends Fragment implements DailyDialogBox.OnInputSelected {
 
-    private static final String TAG = "DailyFragment";
+    private static final String TAG = "CalendarDailyFragment";
+
     private Button openDialog;
     public TextView inputDisplay;
     private ListView listView;
     private DatabaseHelper myDbase;
     private ArrayList<TaskData> arrayList;
     private Adapter myAdapter;
-    final DailyFragment thisThing = this;
+    final CalendarDailyFragment thisThing = this;
+
 
     @Nullable
     @Override
@@ -40,6 +42,10 @@ public class DailyFragment extends Fragment implements DailyDialogBox.OnInputSel
         listView = rootView.findViewById(R.id.list_tasks);
         myDbase = new DatabaseHelper(getContext());
         arrayList = new ArrayList<>();
+
+
+        Bundle dateBundle = getArguments();
+        String calendarDate = dateBundle.getString("date");
 
         //update data
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -56,23 +62,23 @@ public class DailyFragment extends Fragment implements DailyDialogBox.OnInputSel
 
                 EditDataDialogBox dialog = new EditDataDialogBox(thisThing);
                 dialog.setArguments(args);
-                dialog.setTargetFragment(DailyFragment.this, 1);
+                dialog.setTargetFragment(CalendarDailyFragment.this, 1);
                 dialog.show(getFragmentManager(), "DailyDialog");
                 loadDataListView();
                 return false;
             }
         });
-
-        //add task
+        //add data
         openDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v) {
                 DailyDialogBox dialog = new DailyDialogBox(thisThing);
-                dialog.setTargetFragment(DailyFragment.this, 1);
+                dialog.setTargetFragment(CalendarDailyFragment.this, 1);
                 dialog.show(getFragmentManager(), "DailyDialog");
                 loadDataListView();
             }
         });
+
         loadDataListView();
 
         return rootView;
@@ -82,23 +88,30 @@ public class DailyFragment extends Fragment implements DailyDialogBox.OnInputSel
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/YYYY");
         String currentDate = sdf.format(new Date());
 
+
+
+        Bundle dateBundle = getArguments();
+        String calendarDate = dateBundle.getString("date");
+
+
+        Log.d(TAG, "loadDataListView: " + calendarDate);
         Log.d(TAG, "loadDataListView: " + currentDate);
 
-//        Bundle dateBundle = getArguments();
-//        String calendarDate = dateBundle.getString("date");
+            if (!currentDate.equals(calendarDate)) {
+                arrayList = myDbase.getDatesDataArray(calendarDate);
 
-//        Log.d(TAG, "loadDataListView: " + calendarDate);
+//                arrayList = myDbase.getDataArray();
+                myAdapter = new MyAdapter(getActivity(), arrayList);
+                listView.setAdapter((BaseAdapter)myAdapter);
+            } else {
+                arrayList = myDbase.getDatesDataArray(currentDate);
 
-//        Cursor cursor = myDbase.getReadableDatabase().rawQuery("SELECT" + COL_3 +  "FROM " + TABLE_NAME + " WHERE " + COL_3 + "=" +  )
+                System.out.println(arrayList.toString());
 
-        arrayList = myDbase.getDataArray();
-
-        System.out.println(arrayList.toString());
-
-        myAdapter = new MyAdapter(getActivity(), arrayList);
-        listView.setAdapter((BaseAdapter)myAdapter);
-        ((BaseAdapter)myAdapter).notifyDataSetChanged();
-        listView.invalidateViews();
+//                arrayList = myDbase.getDataArray();
+                myAdapter = new MyAdapter(getActivity(), arrayList);
+                listView.setAdapter((BaseAdapter)myAdapter);
+        }
     }
 
     @Override
@@ -106,5 +119,5 @@ public class DailyFragment extends Fragment implements DailyDialogBox.OnInputSel
         inputDisplay.setText(input);
     }
 
-}
 
+}
