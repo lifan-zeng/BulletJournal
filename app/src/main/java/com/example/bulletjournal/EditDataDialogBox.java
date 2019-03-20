@@ -89,8 +89,6 @@ public class EditDataDialogBox extends DialogFragment {
         editData();
         deleteTask();
 
-
-
         final Calendar myCalendar = Calendar.getInstance();
         final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/YYYY");
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -134,7 +132,6 @@ public class EditDataDialogBox extends DialogFragment {
 
         return view;
     }
-
 
     public void editData() {
         actButtonOk.setOnClickListener(new OnClickListener() {

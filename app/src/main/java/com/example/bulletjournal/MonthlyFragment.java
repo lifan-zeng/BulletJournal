@@ -34,7 +34,6 @@ public class MonthlyFragment extends Fragment {
 
                 String date = newMonth + "/" + dayOfMonth + "/" + year; //date format: mm/dd/yyyy
 
-
                 Bundle dateBundle = new Bundle();
                 dateBundle.putString("date", date);
 
