@@ -46,8 +46,7 @@ public class DailyDialogBox extends DialogFragment {
     private CalendarDailyFragment fragCalendar;
     private BookmarksFragment fragBm;
 
-    public DailyDialogBox() {
-    }
+    public DailyDialogBox() {}
 
     @SuppressLint("ValidFragment")
     public DailyDialogBox(DailyFragment frag) {
@@ -130,7 +129,7 @@ public class DailyDialogBox extends DialogFragment {
             public void onClick(View v) {
                 Context context = getActivity();
                 boolean isAdded;
-                if (inputTitle.getText().toString().equals("") || inputDate.getText().toString().equals("") || String.valueOf(switchState).equals("")) {
+                if (inputTitle.getText().toString().trim().equals("") || inputDate.getText().toString().trim().equals("") || String.valueOf(switchState).equals("")) {
                     Toast.makeText(context, "Failed to Add Task: Empty Textbox", LENGTH_SHORT).show();
                 } else {
                     isAdded = myDbase.addData(inputTitle.getText().toString(), inputDate.getText().toString(), String.valueOf(switchState) );

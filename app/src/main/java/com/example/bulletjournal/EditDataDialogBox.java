@@ -49,6 +49,7 @@ public class EditDataDialogBox extends DialogFragment {
     private CalendarDailyFragment fragCalendar;
     private BookmarksFragment fragBm;
 
+    public EditDataDialogBox () {}
 
     @SuppressLint("ValidFragment")
     public EditDataDialogBox(DailyFragment frag) {
@@ -139,7 +140,7 @@ public class EditDataDialogBox extends DialogFragment {
             public void onClick (View v){
                 Context context = getActivity();
                 boolean isUpdated;
-                if (inputTitle.getText().toString().equals("") || inputDate.getText().toString().equals("") || String.valueOf(switchState).equals("")) {
+                if (inputTitle.getText().toString().trim().equals("") || inputDate.getText().toString().trim().equals("") || String.valueOf(switchState).equals("")) {
                     Toast.makeText(context, "Failed to Edit Task: Empty Textbox", LENGTH_SHORT).show();
                 } else {
                     isUpdated = myDbase.updateData(setNum, inputTitle.getText().toString(), inputDate.getText().toString(), String.valueOf(switchState));
