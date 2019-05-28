@@ -132,6 +132,7 @@ public class DailyDialogBox extends DialogFragment {
                 if (inputTitle.getText().toString().trim().equals("") || inputDate.getText().toString().trim().equals("") || String.valueOf(switchState).equals("")) {
                     Toast.makeText(context, "Failed to Add Task: Empty Textbox", LENGTH_SHORT).show();
                 } else {
+
                     isAdded = myDbase.addData(inputTitle.getText().toString(), inputDate.getText().toString(), String.valueOf(switchState) );
 
                     try {

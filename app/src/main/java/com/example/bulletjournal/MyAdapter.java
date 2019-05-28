@@ -34,7 +34,6 @@ public class MyAdapter extends BaseAdapter {
 
         return convertView;
 
-
     }
     @Override
     public int getCount(){

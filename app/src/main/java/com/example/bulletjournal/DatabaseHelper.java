@@ -53,6 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
+
     public Cursor getData() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("select * from " + TABLE_NAME, null);
@@ -121,7 +122,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Log.d(TAG, "getBookmarks: yes");
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE BOOKMARK" + " =  '" + STATE_TRUE + "'" , null);
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME +
+                " WHERE BOOKMARK" + " =  '" + STATE_TRUE + "'" , null);
+
         ArrayList<TaskData> bookmarkList = new ArrayList<>();
 
         if (cursor.moveToFirst()) {
@@ -134,6 +138,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String taskDate= cursor.getString(2);
                 String bookmark = cursor.getString(3);
                 TaskData newTask = new TaskData(num, task, taskDate, bookmark);
+
                 bookmarkList.add(newTask);
 
             } while (cursor.moveToNext());
@@ -142,3 +147,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 }
+

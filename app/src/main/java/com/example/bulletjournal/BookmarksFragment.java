@@ -76,6 +76,7 @@ public class BookmarksFragment extends Fragment {
                 loadDataListView();
             }
         });
+
         loadDataListView();
 
 

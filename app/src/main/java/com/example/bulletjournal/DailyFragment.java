@@ -75,6 +75,7 @@ public class DailyFragment extends Fragment implements DailyDialogBox.OnInputSel
                 loadDataListView();
             }
         });
+
         loadDataListView();
 
         return rootView;
@@ -88,8 +89,6 @@ public class DailyFragment extends Fragment implements DailyDialogBox.OnInputSel
 
         headingDate.setText(currentDate);
         arrayList = myDbase.getDatesDataArray(currentDate);
-
-        System.out.println(arrayList.toString());
 
         myAdapter = new MyAdapter(getActivity(), arrayList);
         listView.setAdapter((BaseAdapter)myAdapter);
